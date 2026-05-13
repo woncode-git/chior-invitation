@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>합창단 동문 연주회 초대장</title>
     
+    <!-- 카카오톡/SNS 공유 시 보여지는 정보 (Open Graph) -->
     <meta property="og:title" content="건국 합창단 동문회, 첫 번째 연주회">
     <meta property="og:description" content="건국 합창단 동문회 첫 번째 연주회에 여러분을 초대합니다.">
+    
+    <!-- [중요] 아래 content 부분에 본인의 실제 GitHub 이미지 주소를 넣으세요 -->
+    <!-- 예: https://yourid.github.io/choir-invitation/share_image.png -->
     <meta property="og:image" content="https://images.unsplash.com/photo-1514320298573-73ba8395b048?q=80&w=800&auto=format&fit=crop">
     <meta property="og:type" content="website">
 
@@ -22,7 +26,7 @@
             --bg-cream: #fffdf9;
             --text-dark: #1e293b;
             --text-muted: #64748b;
-            /* 폰트 크기 표준화 */
+            /* 가독성 개선을 위한 폰트 크기 변수 */
             --fz-base: 17px;
             --fz-large: 20px;
             --fz-title: 26px;
@@ -33,7 +37,7 @@
             background-color: #f1f5f9; 
             font-family: 'Noto Serif KR', serif; 
             color: var(--text-dark); 
-            line-height: 1.8; /* 행간을 넓혀 가독성 향상 */
+            line-height: 1.8; 
             -webkit-font-smoothing: antialiased; 
         }
 
@@ -46,7 +50,7 @@
             box-shadow: 0 0 40px rgba(0,0,0,0.1);
         }
 
-        section { padding: 80px 24px; text-align: center; } /* 섹션 간격 확장 */
+        section { padding: 80px 24px; text-align: center; }
 
         .hero {
             height: 100vh;
@@ -82,11 +86,11 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
-            padding: 22px; /* 버튼 크기 확장 */
+            padding: 22px; 
             border-radius: 14px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 19px; /* 버튼 글자 크기 확장 */
+            font-size: 19px; 
             margin-bottom: 15px;
             transition: all 0.2s ease-in-out;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -96,7 +100,6 @@
         .btn-secondary { border: 1px solid #cbd5e1; color: var(--text-dark); background: white; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
 
-        /* 지도 컨테이너 스타일 */
         .map-container {
             width: 100%; 
             aspect-ratio: 16 / 10;
@@ -111,11 +114,7 @@
             justify-content: center;
         }
 
-        .map-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .map-container img { width: 100%; height: 100%; object-fit: cover; }
 
         .copy-box {
             background: #f8fafc; padding: 20px; border-radius: 12px; font-size: 18px; 
@@ -201,7 +200,7 @@
             
             <a href="https://naver.me/5BwmcBob" target="_blank" style="text-decoration: none;">
                 <div class="map-container">
-                    <img src="./naver_map.png" onerror="this.src='https://placehold.co/480x300/f1f5f9/64748b?text=지도+이미지를+찾을+수+없습니다'" alt="Map">
+                    <img src="./map_capture.png" onerror="this.src='https://placehold.co/480x300/f1f5f9/64748b?text=지도+이미지를+찾을+수+없습니다'" alt="Map">
                     <div style="position: absolute; bottom: 12px; right: 12px;">
                         <span style="background: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: var(--primary-navy);">
                             <i class="fa-solid fa-expand"></i> 크게 보기
@@ -255,7 +254,7 @@
         </div>
 
         <div id="messageContainer">
-            <p id="loadingMsg" style="font-size: 15px; color: var(--text-muted);">메시지를 불러오는 중입니다...</p>
+            <p style="font-size: 15px; color: var(--text-muted);">메시지를 불러오는 중입니다...</p>
         </div>
     </section>
 
@@ -272,14 +271,15 @@
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
     // [중요] 본인의 Firebase 설정값으로 유지하세요
-    const firebaseConfig = {
-        apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
-        authDomain: "choir-invitation.firebaseapp.com",
-        projectId: "choir-invitation",
-        storageBucket: "choir-invitation.firebasestorage.app",
-        messagingSenderId: "204228154882",
-        appId: "1:204228154882:web:1e4393c7a0676c9585b91b"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
+    authDomain: "choir-invitation.firebaseapp.com",
+    projectId: "choir-invitation",
+    storageBucket: "choir-invitation.firebasestorage.app",
+    messagingSenderId: "204228154882",
+    appId: "1:204228154882:web:1e4393c7a0676c9585b91b"
+  };
+
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
