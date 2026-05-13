@@ -84,9 +84,25 @@
         .btn-secondary { border: 1px solid #cbd5e1; color: var(--text-dark); background: white; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
 
+        /* 지도 컨테이너 스타일 수정 */
         .map-container {
-            width: 100%; height: 200px; background-color: #f1f5f9; border-radius: 12px; 
-            overflow: hidden; margin: 20px 0 12px; position: relative; border: 1px solid #e2e8f0;
+            width: 100%; 
+            aspect-ratio: 16 / 9; /* 이미지 비율에 맞춰 자동 조정 */
+            background-color: #f1f5f9; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            margin: 20px 0 12px; 
+            position: relative; 
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 이미지가 컨테이너를 가득 채우도록 설정 */
         }
 
         .copy-box {
@@ -119,13 +135,25 @@
         .message-date { font-size: 11px; color: var(--text-muted); }
         .message-body { font-size: 14px; color: var(--text-dark); white-space: pre-wrap; }
 
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: none;
+        }
+        .admin-mode .delete-btn { display: inline-block; }
+
         footer { padding: 40px 24px; background-color: var(--primary-navy); color: #64748b; font-size: 11px; text-align: center; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
 
 <div class="mobile-wrapper">
-    <!-- ... 기존 HTML 내용 (문구 유지) ... -->
     <section class="hero">
         <p class="subtitle">1st Anniversary Concert</p>
         <h1>건국 합창단 동문회,<br>첫 번째 연주회</h1>
@@ -167,16 +195,18 @@
             <p style="font-weight: 700;">창신 아트홀</p>
             <p style="font-size: 13px; color: var(--text-muted);">서울 종로구 지봉로5길 7-5<br>(동묘앞역 8번 출구 근처)</p>
             
+            <!-- 지도 이미지 영역: naver_map.png 파일을 GitHub 저장소에 함께 올리세요 -->
             <a href="https://naver.me/5BwmcBob" target="_blank" style="text-decoration: none;">
                 <div class="map-container">
-                    <img src="https://placehold.co/480x200/f1f5f9/64748b?text=창신아트홀+지도+보기" alt="Map" style="width:100%; height:100%; object-fit:cover;">
-                    <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center;">
-                        <span style="background: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                            <i class="fa-solid fa-map"></i> 네이버 지도로 보기
+                    <img src="./naver_map.png" onerror="this.src='https://placehold.co/480x270/f1f5f9/64748b?text=지도+이미지를+찾을+수+없습니다'" alt="Map">
+                    <div style="position: absolute; bottom: 10px; right: 10px;">
+                        <span style="background: white; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--primary-navy);">
+                            <i class="fa-solid fa-expand"></i> 크게 보기
                         </span>
                     </div>
                 </div>
             </a>
+
             <a href="https://naver.me/5BwmcBob" target="_blank" class="btn btn-secondary">
                 네이버 지도로 길찾기
             </a>
@@ -236,36 +266,38 @@
 <!-- FIREBASE SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    // [중요] 아래 "YOUR_..." 부분들을 실제 Firebase 콘솔에 있는 값으로 하나씩 복사해 넣으세요.
-  const firebaseConfig = {
-    apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
-    authDomain: "choir-invitation.firebaseapp.com",
-    projectId: "choir-invitation",
-    storageBucket: "choir-invitation.firebasestorage.app",
-    messagingSenderId: "204228154882",
-    appId: "1:204228154882:web:1e4393c7a0676c9585b91b"
-  };
-
+    // [중요] 본인의 Firebase 설정값으로 유지하세요
+    const firebaseConfig = {
+        apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
+        authDomain: "choir-invitation.firebaseapp.com",
+        projectId: "choir-invitation",
+        storageBucket: "choir-invitation.firebasestorage.app",
+        messagingSenderId: "204228154882",
+        appId: "1:204228154882:web:1e4393c7a0676c9585b91b"
+    };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const isAdmin = urlParams.get('admin') === 'true';
+    if (isAdmin) {
+        document.body.classList.add('admin-mode');
+    }
 
     let currentUser = null;
 
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
         if (user) {
-            console.log("인증 성공:", user.uid);
             loadMessages();
         } else {
-            // 인증 시도
             signInAnonymously(auth).catch((error) => {
-                console.error("인증 실패 상세:", error.code, error.message);
-                document.getElementById('loadingMsg').innerText = "인증 실패: Firebase 콘솔에서 '익명 로그인'이 켜져 있는지 확인해 주세요.";
+                console.error("인증 에러:", error);
             });
         }
     });
@@ -278,19 +310,15 @@
             snapshot.forEach((doc) => {
                 messages.push({ id: doc.id, ...doc.data() });
             });
-            // 시간순 정렬
             messages.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             renderMessages(messages);
-        }, (error) => {
-            console.error("데이터 로드 실패:", error);
-            if(error.code === 'permission-denied') {
-                document.getElementById('loadingMsg').innerText = "권한 오류: Firestore Rules 탭에서 쓰기/읽기 허용을 확인하세요.";
-            }
         });
     }
 
     function renderMessages(messages) {
         const container = document.getElementById('messageContainer');
+        if (!container) return;
+        
         if (messages.length === 0) {
             container.innerHTML = `<p style="font-size: 13px; color: var(--text-muted);">첫 번째 축하 메시지를 남겨보세요!</p>`;
             return;
@@ -303,27 +331,29 @@
                     <span class="message-date">${msg.createdAt ? new Date(msg.createdAt.seconds * 1000).toLocaleDateString() : '방금 전'}</span>
                 </div>
                 <p class="message-body">${msg.message || ''}</p>
+                ${isAdmin ? `<button class="delete-btn" onclick="deleteMessage('${msg.id}')">삭제</button>` : ''}
             </div>
         `).join('');
     }
+
+    window.deleteMessage = async (id) => {
+        if (!confirm("이 메시지를 정말 삭제하시겠습니까?")) return;
+        try {
+            await deleteDoc(doc(db, 'guestbook', id));
+        } catch (e) {
+            console.error("삭제 오류:", e);
+        }
+    };
 
     window.addMessage = async () => {
         const nameInput = document.getElementById('guestName');
         const msgInput = document.getElementById('guestMessage');
         const submitBtn = document.getElementById('submitBtn');
 
-        if (!currentUser) {
-            alert("인증 진행 중입니다. 잠시만 기다려 주세요.");
-            return;
-        }
-
+        if (!currentUser) return;
         const name = nameInput.value.trim();
         const message = msgInput.value.trim();
-
-        if (!name || !message) {
-            alert("성함과 메시지를 입력해 주세요.");
-            return;
-        }
+        if (!name || !message) return;
 
         submitBtn.disabled = true;
         submitBtn.innerText = "남기는 중...";
@@ -338,8 +368,7 @@
             nameInput.value = '';
             msgInput.value = '';
         } catch (e) {
-            console.error("메시지 저장 오류:", e);
-            alert("메시지 저장에 실패했습니다. 권한 설정을 확인하세요.");
+            console.error("저장 오류:", e);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerText = "메시지 남기기";
@@ -348,7 +377,6 @@
 </script>
 
 <script>
-    // 계좌 복사
     function copyAccount() {
         const text = document.getElementById('accountNumber').innerText;
         const tempElem = document.createElement('textarea');
