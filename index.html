@@ -267,7 +267,7 @@
     import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    // Firebase 설정 (환경변수 또는 직접 입력한 설정값 사용)
+    // Firebase 설정 (본인의 설정값으로 반드시 교체해 주세요)
     const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
         apiKey: "YOUR_API_KEY",
         authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -294,6 +294,8 @@
             // 인증되지 않은 경우 익명 로그인 시도
             signInAnonymously(auth).catch((error) => {
                 console.error("Auth Error:", error.code, error.message);
+                const container = document.getElementById('messageContainer');
+                container.innerHTML = `<p style="font-size: 12px; color: #ef4444;">인증에 실패했습니다. Firebase 콘솔에서 '익명 로그인'을 활성화했는지 확인해주세요.</p>`;
             });
         }
     });
@@ -313,7 +315,7 @@
         }, (error) => {
             console.error("Snapshot error:", error);
             const container = document.getElementById('messageContainer');
-            container.innerHTML = `<p style="font-size: 12px; color: #ef4444;">메시지를 불러올 수 없습니다. (권한 오류)</p>`;
+            container.innerHTML = `<p style="font-size: 12px; color: #ef4444;">메시지를 불러올 수 없습니다. (Firestore 규칙 확인 필요)</p>`;
         });
     }
 
@@ -342,7 +344,7 @@
         const submitBtn = document.getElementById('submitBtn');
 
         if (!currentUser) {
-            alert("인증 중입니다. 잠시 후 다시 시도해주세요.");
+            alert("인증 중입니다. 잠시 후 다시 시도해주세요. 오류가 지속되면 Firebase 설정을 확인해주세요.");
             return;
         }
 
