@@ -80,50 +80,27 @@
             transition: all 0.2s ease-in-out;
         }
 
-        .btn-primary { background-color: var(--primary-navy); color: white; border: none; }
+        .btn-primary { background-color: var(--primary-navy); color: white; border: none; cursor: pointer; }
         .btn-secondary { border: 1px solid #cbd5e1; color: var(--text-dark); background: white; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
 
         .map-container {
-            width: 100%; 
-            height: 200px; 
-            background-color: #f1f5f9; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            margin: 20px 0 12px; 
-            position: relative; 
-            border: 1px solid #e2e8f0;
+            width: 100%; height: 200px; background-color: #f1f5f9; border-radius: 12px; 
+            overflow: hidden; margin: 20px 0 12px; position: relative; border: 1px solid #e2e8f0;
         }
 
         .copy-box {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #f1f5f9;
+            background: #f8fafc; padding: 15px; border-radius: 10px; font-size: 14px; 
+            margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f5f9;
         }
 
         .copy-btn {
-            background: var(--primary-navy);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
+            background: var(--primary-navy); color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;
         }
 
-        /* 방명록 스타일 */
         .guestbook-form {
-            text-align: left; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 16px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
-            margin-bottom: 30px;
+            text-align: left; background: white; padding: 20px; border-radius: 16px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 30px;
         }
         .input-group { margin-bottom: 12px; }
         .input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
@@ -148,7 +125,6 @@
 <body>
 
 <div class="mobile-wrapper">
-    <!-- HERO SECTION -->
     <section class="hero">
         <p class="subtitle">1st Anniversary Concert</p>
         <h1>건국 합창단 동문회,<br>첫 번째 연주회</h1>
@@ -157,7 +133,6 @@
         </p>
     </section>
 
-    <!-- GREETING -->
     <section>
         <i class="fa-solid fa-quote-left" style="color: var(--accent-gold); font-size: 20px; margin-bottom: 20px;"></i>
         <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--primary-navy);">노래로 잇는 인연</p>
@@ -168,7 +143,6 @@
         </p>
     </section>
 
-    <!-- PROGRAM -->
     <section style="background-color: #fcf8f1;">
         <h2 class="section-title">PROGRAM(곡 수가 많아서 제외 고민 중)</h2>
         <div class="program-item">
@@ -185,7 +159,6 @@
         </div>
     </section>
 
-    <!-- INFORMATION -->
     <section>
         <h2 class="section-title">INFORMATION</h2>
         <div style="margin-bottom: 40px;">
@@ -224,7 +197,6 @@
         </div>
     </section>
 
-    <!-- RSVP -->
     <section style="padding-top: 0; padding-bottom: 20px;">
         <a href="https://forms.gle/SQbQfcMpFdfo4yBU8" target="_blank" class="btn btn-primary" style="font-size: 16px; padding: 20px;">
             <i class="fa-solid fa-calendar-check"></i> 참석 여부 회신하기
@@ -232,7 +204,6 @@
         <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">원활한 준비를 위해 6월 20일까지 응답 부탁드립니다.</p>
     </section>
 
-    <!-- GUESTBOOK (REAL-TIME) -->
     <section id="guestbook-section" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
         <h2 class="section-title">GUESTBOOK</h2>
         <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 30px;">따뜻한 축하의 한마디를 남겨주세요.</p>
@@ -250,7 +221,7 @@
         </div>
 
         <div id="messageContainer">
-            <p style="font-size: 13px; color: var(--text-muted);">메시지를 불러오는 중입니다...</p>
+            <p id="loadingMsg" style="font-size: 13px; color: var(--text-muted);">메시지를 불러오는 중입니다...</p>
         </div>
     </section>
 
@@ -261,14 +232,13 @@
     </footer>
 </div>
 
-<!-- FIREBASE SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    // Firebase 설정 (본인의 설정값으로 반드시 교체해 주세요)
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+    // IMPORTANT: Replace these with your ACTUAL Firebase Project credentials
+    const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
         authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
         projectId: "YOUR_PROJECT_ID",
@@ -280,42 +250,41 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'choir-invitation-2026';
 
     let currentUser = null;
 
-    // 1. 익명 인증 및 상태 감시
+    // Authentication
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
         if (user) {
-            console.log("Authenticated as:", user.uid);
+            console.log("Logged in as:", user.uid);
             loadMessages();
         } else {
-            // 인증되지 않은 경우 익명 로그인 시도
             signInAnonymously(auth).catch((error) => {
-                console.error("Auth Error:", error.code, error.message);
-                const container = document.getElementById('messageContainer');
-                container.innerHTML = `<p style="font-size: 12px; color: #ef4444;">인증에 실패했습니다. Firebase 콘솔에서 '익명 로그인'을 활성화했는지 확인해주세요.</p>`;
+                console.error("Auth Error:", error);
+                document.getElementById('loadingMsg').innerText = "인증 실패: Firebase 콘솔에서 '익명 로그인'을 켜주세요.";
             });
         }
     });
 
-    // 2. 메시지 불러오기
+    // Load Messages
     function loadMessages() {
-        const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'guestbook'));
+        // Simplified path to 'guestbook' for easier permission management
+        const q = query(collection(db, 'guestbook'));
 
         onSnapshot(q, (snapshot) => {
             const messages = [];
             snapshot.forEach((doc) => {
                 messages.push({ id: doc.id, ...doc.data() });
             });
-            // 최신순 정렬
+            // Sort by time in JavaScript to avoid index issues in Firestore
             messages.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             renderMessages(messages);
         }, (error) => {
             console.error("Snapshot error:", error);
-            const container = document.getElementById('messageContainer');
-            container.innerHTML = `<p style="font-size: 12px; color: #ef4444;">메시지를 불러올 수 없습니다. (Firestore 규칙 확인 필요)</p>`;
+            if(error.code === 'permission-denied') {
+                document.getElementById('loadingMsg').innerText = "권한 부족: Firebase 콘솔의 Rules 탭에서 'read/write'를 허용해주세요.";
+            }
         });
     }
 
@@ -337,14 +306,14 @@
         `).join('');
     }
 
-    // 3. 메시지 추가 함수를 window 객체에 할당 (HTML 버튼에서 호출 가능하게 함)
+    // Add Message function
     window.addMessage = async () => {
         const nameInput = document.getElementById('guestName');
         const msgInput = document.getElementById('guestMessage');
         const submitBtn = document.getElementById('submitBtn');
 
         if (!currentUser) {
-            alert("인증 중입니다. 잠시 후 다시 시도해주세요. 오류가 지속되면 Firebase 설정을 확인해주세요.");
+            console.error("User not authenticated.");
             return;
         }
 
@@ -352,7 +321,7 @@
         const message = msgInput.value.trim();
 
         if (!name || !message) {
-            alert("성함과 메시지를 모두 입력해주세요.");
+            console.warn("Input is empty.");
             return;
         }
 
@@ -360,7 +329,7 @@
         submitBtn.innerText = "남기는 중...";
 
         try {
-            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'guestbook'), {
+            await addDoc(collection(db, 'guestbook'), {
                 name: name,
                 message: message,
                 createdAt: serverTimestamp(),
@@ -370,7 +339,6 @@
             msgInput.value = '';
         } catch (e) {
             console.error("Error adding document: ", e);
-            alert("메시지 저장에 실패했습니다. Firebase 설정을 확인해주세요.");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerText = "메시지 남기기";
@@ -379,7 +347,7 @@
 </script>
 
 <script>
-    // 계좌 복사 기능
+    // Copy account info
     function copyAccount() {
         const text = document.getElementById('accountNumber').innerText;
         const tempElem = document.createElement('textarea');
