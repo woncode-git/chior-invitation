@@ -263,59 +263,57 @@
 
 <!-- FIREBASE SDK -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    // [중요] 아래 firebaseConfig 부분을 본인의 Firebase 설정값으로 반드시 교체해주세요!
-    // Firebase 콘솔 > 프로젝트 설정 > 일반 > 내 앱 섹션에서 확인 가능합니다.
-     const firebaseConfig = {
-    apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
-    authDomain: "choir-invitation.firebaseapp.com",
-    projectId: "choir-invitation",
-    storageBucket: "choir-invitation.firebasestorage.app",
-    messagingSenderId: "204228154882",
-    appId: "1:204228154882:web:1e4393c7a0676c9585b91b"
-     };
+    // Firebase 설정 (환경변수 또는 직접 입력한 설정값 사용)
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
 
-
-    // Firebase 초기화
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'choir-invitation-2026';
 
     let currentUser = null;
 
-    // 1. 익명 인증 실행 (방명록 작성을 위해 필요)
-    async function init() {
-        try {
-            await signInAnonymously(auth);
-        } catch (error) {
-            console.error("인증 에러:", error);
-        }
-    }
-
+    // 1. 익명 인증 및 상태 감시
     onAuthStateChanged(auth, (user) => {
+        currentUser = user;
         if (user) {
-            currentUser = user;
+            console.log("Authenticated as:", user.uid);
             loadMessages();
+        } else {
+            // 인증되지 않은 경우 익명 로그인 시도
+            signInAnonymously(auth).catch((error) => {
+                console.error("Auth Error:", error.code, error.message);
+            });
         }
     });
 
-    init();
-
-    // 2. 메시지 불러오기 (실시간 감시)
+    // 2. 메시지 불러오기
     function loadMessages() {
-        const q = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'));
+        const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'guestbook'));
 
         onSnapshot(q, (snapshot) => {
             const messages = [];
             snapshot.forEach((doc) => {
                 messages.push({ id: doc.id, ...doc.data() });
             });
+            // 최신순 정렬
+            messages.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             renderMessages(messages);
         }, (error) => {
-            console.error("데이터 불러오기 에러:", error);
+            console.error("Snapshot error:", error);
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `<p style="font-size: 12px; color: #ef4444;">메시지를 불러올 수 없습니다. (권한 오류)</p>`;
         });
     }
 
@@ -329,22 +327,22 @@
         container.innerHTML = messages.map(msg => `
             <div class="message-card">
                 <div class="message-header">
-                    <span class="message-name">${msg.name}</span>
+                    <span class="message-name">${msg.name || '익명'}</span>
                     <span class="message-date">${msg.createdAt ? new Date(msg.createdAt.seconds * 1000).toLocaleDateString() : '방금 전'}</span>
                 </div>
-                <p class="message-body">${msg.message}</p>
+                <p class="message-body">${msg.message || ''}</p>
             </div>
         `).join('');
     }
 
-    // 3. 메시지 추가 (전역 함수로 노출)
+    // 3. 메시지 추가 함수를 window 객체에 할당 (HTML 버튼에서 호출 가능하게 함)
     window.addMessage = async () => {
         const nameInput = document.getElementById('guestName');
         const msgInput = document.getElementById('guestMessage');
         const submitBtn = document.getElementById('submitBtn');
 
         if (!currentUser) {
-            alert("로그인 중입니다. 잠시 후 다시 시도해주세요.");
+            alert("인증 중입니다. 잠시 후 다시 시도해주세요.");
             return;
         }
 
@@ -370,7 +368,7 @@
             msgInput.value = '';
         } catch (e) {
             console.error("Error adding document: ", e);
-            alert("메시지 저장에 실패했습니다.");
+            alert("메시지 저장에 실패했습니다. Firebase 설정을 확인해주세요.");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerText = "메시지 남기기";
