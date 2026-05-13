@@ -170,7 +170,7 @@
 
     <!-- PROGRAM -->
     <section style="background-color: #fcf8f1;">
-        <h2 class="section-title">PROGRAM(곡 수가 많아 제외 고민 중)</h2>
+        <h2 class="section-title">PROGRAM(곡 수가 많아서 제외 고민 중)</h2>
         <div class="program-item">
             <h3>노래 제목</h3>
             <p>작사, 작곡</p>
@@ -264,56 +264,58 @@
 <!-- FIREBASE SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // Firebase 설정 (환경에서 제공하는 보안 규칙을 따릅니다)
-    const firebaseConfig = JSON.parse(__firebase_config);
+    // [중요] 아래 firebaseConfig 부분을 본인의 Firebase 설정값으로 반드시 교체해주세요!
+    // Firebase 콘솔 > 프로젝트 설정 > 일반 > 내 앱 섹션에서 확인 가능합니다.
+     const firebaseConfig = {
+    apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
+    authDomain: "choir-invitation.firebaseapp.com",
+    projectId: "choir-invitation",
+    storageBucket: "choir-invitation.firebasestorage.app",
+    messagingSenderId: "204228154882",
+    appId: "1:204228154882:web:1e4393c7a0676c9585b91b"
+     };
+
+
+    // Firebase 초기화
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'choir-invitation-2026';
 
     let currentUser = null;
 
-    // 1. 익명 인증 실행
+    // 1. 익명 인증 실행 (방명록 작성을 위해 필요)
     async function init() {
         try {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                // 이 환경에서는 생략 가능하거나 자동 처리됨
-            } else {
-                await signInAnonymously(auth);
-            }
+            await signInAnonymously(auth);
         } catch (error) {
-            console.error("Auth error:", error);
+            console.error("인증 에러:", error);
         }
     }
 
     onAuthStateChanged(auth, (user) => {
-        currentUser = user;
-        if (user) loadMessages();
+        if (user) {
+            currentUser = user;
+            loadMessages();
+        }
     });
 
     init();
 
     // 2. 메시지 불러오기 (실시간 감시)
     function loadMessages() {
-        const q = query(
-            collection(db, 'artifacts', appId, 'public', 'data', 'guestbook')
-            // RULE 2: No complex queries like orderBy here for index issues, we sort in JS
-        );
+        const q = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'));
 
         onSnapshot(q, (snapshot) => {
             const messages = [];
             snapshot.forEach((doc) => {
                 messages.push({ id: doc.id, ...doc.data() });
             });
-
-            // 클라이언트 사이드에서 시간순 정렬 (최신순)
-            messages.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             renderMessages(messages);
         }, (error) => {
-            console.error("Snapshot error:", error);
+            console.error("데이터 불러오기 에러:", error);
         });
     }
 
