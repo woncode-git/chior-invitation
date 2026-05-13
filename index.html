@@ -22,10 +22,20 @@
             --bg-cream: #fffdf9;
             --text-dark: #1e293b;
             --text-muted: #64748b;
+            /* 폰트 크기 표준화 */
+            --fz-base: 17px;
+            --fz-large: 20px;
+            --fz-title: 26px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #f1f5f9; font-family: 'Noto Serif KR', serif; color: var(--text-dark); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        body { 
+            background-color: #f1f5f9; 
+            font-family: 'Noto Serif KR', serif; 
+            color: var(--text-dark); 
+            line-height: 1.8; /* 행간을 넓혀 가독성 향상 */
+            -webkit-font-smoothing: antialiased; 
+        }
 
         .mobile-wrapper {
             background-color: var(--bg-cream);
@@ -36,7 +46,7 @@
             box-shadow: 0 0 40px rgba(0,0,0,0.1);
         }
 
-        section { padding: 60px 24px; text-align: center; }
+        section { padding: 80px 24px; text-align: center; } /* 섹션 간격 확장 */
 
         .hero {
             height: 100vh;
@@ -48,50 +58,52 @@
             color: white;
         }
 
-        .hero h1 { font-size: 34px; font-weight: 700; line-height: 1.3; margin-bottom: 20px; word-break: keep-all; }
-        .hero .subtitle { color: var(--accent-gold); letter-spacing: 4px; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; }
+        .hero h1 { font-size: 40px; font-weight: 700; line-height: 1.3; margin-bottom: 25px; word-break: keep-all; }
+        .hero .subtitle { color: var(--accent-gold); letter-spacing: 5px; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
 
         .section-title {
-            font-size: 20px;
+            font-size: var(--fz-title);
             color: var(--accent-gold);
-            margin-bottom: 40px;
-            border-bottom: 1px solid var(--accent-gold);
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--accent-gold);
             display: inline-block;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
             letter-spacing: 2px;
+            font-weight: 700;
         }
 
-        .program-item { margin-bottom: 25px; }
-        .program-item h3 { font-size: 17px; margin-bottom: 4px; }
-        .program-item p { font-size: 13px; color: var(--text-muted); }
+        .program-item { margin-bottom: 35px; }
+        .program-item h3 { font-size: 22px; margin-bottom: 8px; font-weight: 700; }
+        .program-item p { font-size: 17px; color: var(--text-muted); }
 
         .btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 22px; /* 버튼 크기 확장 */
+            border-radius: 14px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 12px;
+            font-size: 19px; /* 버튼 글자 크기 확장 */
+            margin-bottom: 15px;
             transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .btn-primary { background-color: var(--primary-navy); color: white; border: none; cursor: pointer; }
         .btn-secondary { border: 1px solid #cbd5e1; color: var(--text-dark); background: white; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
 
-        /* 지도 컨테이너 스타일 수정 */
+        /* 지도 컨테이너 스타일 */
         .map-container {
             width: 100%; 
-            aspect-ratio: 16 / 9; /* 이미지 비율에 맞춰 자동 조정 */
+            aspect-ratio: 16 / 10;
             background-color: #f1f5f9; 
             border-radius: 12px; 
             overflow: hidden; 
-            margin: 20px 0 12px; 
+            margin: 25px 0 15px; 
             position: relative; 
             border: 1px solid #e2e8f0;
             display: flex;
@@ -102,53 +114,45 @@
         .map-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 이미지가 컨테이너를 가득 채우도록 설정 */
+            object-fit: cover;
         }
 
         .copy-box {
-            background: #f8fafc; padding: 15px; border-radius: 10px; font-size: 14px; 
-            margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f5f9;
+            background: #f8fafc; padding: 20px; border-radius: 12px; font-size: 18px; 
+            margin-top: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0;
         }
 
         .copy-btn {
-            background: var(--primary-navy); color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;
+            background: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 8px; font-size: 14px; cursor: pointer;
         }
 
         .guestbook-form {
-            text-align: left; background: white; padding: 20px; border-radius: 16px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 30px;
+            text-align: left; background: white; padding: 25px; border-radius: 16px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 40px;
         }
-        .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 15px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
         input, textarea {
-            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; 
-            font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;
+            width: 100%; padding: 15px; border: 1px solid #e2e8f0; border-radius: 10px; 
+            font-family: inherit; font-size: 17px; outline: none; transition: border-color 0.2s;
         }
         input:focus, textarea:focus { border-color: var(--accent-gold); }
 
         .message-card {
-            background: white; padding: 18px; border-radius: 12px; margin-bottom: 12px; 
+            background: white; padding: 22px; border-radius: 14px; margin-bottom: 15px; 
             border: 1px solid #f1f5f9; text-align: left;
         }
-        .message-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .message-name { font-weight: 700; color: var(--primary-navy); font-size: 14px; }
-        .message-date { font-size: 11px; color: var(--text-muted); }
-        .message-body { font-size: 14px; color: var(--text-dark); white-space: pre-wrap; }
+        .message-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .message-name { font-weight: 700; color: var(--primary-navy); font-size: 17px; }
+        .message-date { font-size: 13px; color: var(--text-muted); }
+        .message-body { font-size: 17px; color: var(--text-dark); white-space: pre-wrap; line-height: 1.6; }
 
         .delete-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: none;
+            background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 15px; display: none;
         }
         .admin-mode .delete-btn { display: inline-block; }
 
-        footer { padding: 40px 24px; background-color: var(--primary-navy); color: #64748b; font-size: 11px; text-align: center; letter-spacing: 0.5px; }
+        footer { padding: 50px 24px; background-color: var(--primary-navy); color: #64748b; font-size: 13px; text-align: center; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
@@ -157,15 +161,15 @@
     <section class="hero">
         <p class="subtitle">1st Anniversary Concert</p>
         <h1>건국 합창단 동문회,<br>첫 번째 연주회</h1>
-        <p style="font-size: 15px; font-weight: 300; opacity: 0.9;">
+        <p style="font-size: 19px; font-weight: 400; opacity: 0.9;">
             2026. 06. 27 SAT PM 3:00<br>창신 아트홀
         </p>
     </section>
 
     <section>
-        <i class="fa-solid fa-quote-left" style="color: var(--accent-gold); font-size: 20px; margin-bottom: 20px;"></i>
-        <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--primary-navy);">노래로 잇는 인연</p>
-        <p style="font-size: 14px; color: var(--text-muted); word-break: keep-all;">
+        <i class="fa-solid fa-quote-left" style="color: var(--accent-gold); font-size: 26px; margin-bottom: 25px;"></i>
+        <p style="font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--primary-navy);">노래로 잇는 인연</p>
+        <p style="font-size: 18px; color: var(--text-muted); word-break: keep-all;">
             수십 년의 세월이 모여 <br>하나의 목소리로 다시 모입니다.<br>
             그 시절 우리가 함께 노래하던<br>
             열정과 추억을 다시금 느껴보세요.
@@ -190,17 +194,16 @@
 
     <section>
         <h2 class="section-title">INFORMATION</h2>
-        <div style="margin-bottom: 40px;">
-            <i class="fa-solid fa-location-dot" style="color: var(--accent-gold); font-size: 18px; margin-bottom: 12px;"></i>
-            <p style="font-weight: 700;">창신 아트홀</p>
-            <p style="font-size: 13px; color: var(--text-muted);">서울 종로구 지봉로5길 7-5<br>(동묘앞역 8번 출구 근처)</p>
+        <div style="margin-bottom: 50px;">
+            <i class="fa-solid fa-location-dot" style="color: var(--accent-gold); font-size: 22px; margin-bottom: 15px;"></i>
+            <p style="font-weight: 700; font-size: 20px;">창신 아트홀</p>
+            <p style="font-size: 17px; color: var(--text-muted);">서울 종로구 지봉로5길 7-5<br>(동묘앞역 8번 출구 근처)</p>
             
-            <!-- 지도 이미지 영역: naver_map.png 파일을 GitHub 저장소에 함께 올리세요 -->
             <a href="https://naver.me/5BwmcBob" target="_blank" style="text-decoration: none;">
                 <div class="map-container">
-                    <img src="./naver_map.png" onerror="this.src='https://placehold.co/480x270/f1f5f9/64748b?text=지도+이미지를+찾을+수+없습니다'" alt="Map">
-                    <div style="position: absolute; bottom: 10px; right: 10px;">
-                        <span style="background: white; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--primary-navy);">
+                    <img src="./naver_map.png" onerror="this.src='https://placehold.co/480x300/f1f5f9/64748b?text=지도+이미지를+찾을+수+없습니다'" alt="Map">
+                    <div style="position: absolute; bottom: 12px; right: 12px;">
+                        <span style="background: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: var(--primary-navy);">
                             <i class="fa-solid fa-expand"></i> 크게 보기
                         </span>
                     </div>
@@ -212,32 +215,32 @@
             </a>
         </div>
 
-        <div style="margin-bottom: 40px;">
-            <i class="fa-solid fa-square-p" style="color: var(--accent-gold); font-size: 18px; margin-bottom: 12px;"></i>
-            <p style="font-weight: 700;">주차 안내</p>
-            <p style="font-size: 13px; color: var(--text-muted);">공연장 내 주차가 어렵습니다.<br>가급적 대중교통 및 주변 공영 주차장 이용을 부탁드립니다.</p>
+        <div style="margin-bottom: 50px;">
+            <i class="fa-solid fa-square-p" style="color: var(--accent-gold); font-size: 22px; margin-bottom: 15px;"></i>
+            <p style="font-weight: 700; font-size: 20px;">주차 안내</p>
+            <p style="font-size: 17px; color: var(--text-muted);">공연장 내 주차가 어렵습니다.<br>가급적 대중교통 또는 <br> 주변 공영 주차장 이용을 부탁드립니다.</p>
         </div>
 
-        <div style="text-align: left; margin-top: 50px;">
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">동문회 후원 계좌</p>
+        <div style="text-align: left; margin-top: 60px;">
+            <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 8px;">동문회 후원 계좌</p>
             <div class="copy-box">
                 <span id="accountNumber" style="font-weight: 700;">카카오뱅크 7979-96-77346</span>
                 <span class="copy-btn" onclick="copyAccount()">복사</span>
             </div>
-            <p style="font-size: 13px; margin-top: 8px; color: var(--text-dark);">예금주: 홍서연</p>
+            <p style="font-size: 18px; margin-top: 10px; color: var(--text-dark);">예금주: 홍서연</p>
         </div>
     </section>
 
-    <section style="padding-top: 0; padding-bottom: 20px;">
-        <a href="https://forms.gle/SQbQfcMpFdfo4yBU8" target="_blank" class="btn btn-primary" style="font-size: 16px; padding: 20px;">
+    <section style="padding-top: 0; padding-bottom: 30px;">
+        <a href="https://forms.gle/SQbQfcMpFdfo4yBU8" target="_blank" class="btn btn-primary" style="padding: 25px;">
             <i class="fa-solid fa-calendar-check"></i> 참석 여부 회신하기
         </a>
-        <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">원활한 준비를 위해 6월 20일까지 응답 부탁드립니다.</p>
+        <p style="font-size: 15px; color: var(--text-muted); margin-top: 12px;">원활한 준비를 위해 6월 20일까지 응답 부탁드립니다.</p>
     </section>
 
     <section id="guestbook-section" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
         <h2 class="section-title">GUESTBOOK</h2>
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 30px;">따뜻한 축하의 한마디를 남겨주세요.</p>
+        <p style="font-size: 17px; color: var(--text-muted); margin-bottom: 35px;">따뜻한 축하의 한마디를 남겨주세요.</p>
         
         <div class="guestbook-form">
             <div class="input-group">
@@ -246,13 +249,13 @@
             </div>
             <div class="input-group">
                 <label>메시지</label>
-                <textarea id="guestMessage" placeholder="축하 메시지를 남겨주세요" rows="3"></textarea>
+                <textarea id="guestMessage" placeholder="축하 메시지를 남겨주세요" rows="4"></textarea>
             </div>
-            <button onclick="addMessage()" id="submitBtn" class="btn btn-primary" style="margin-bottom: 0; padding: 12px;">메시지 남기기</button>
+            <button onclick="addMessage()" id="submitBtn" class="btn btn-primary" style="margin-bottom: 0;">메시지 남기기</button>
         </div>
 
         <div id="messageContainer">
-            <p id="loadingMsg" style="font-size: 13px; color: var(--text-muted);">메시지를 불러오는 중입니다...</p>
+            <p id="loadingMsg" style="font-size: 15px; color: var(--text-muted);">메시지를 불러오는 중입니다...</p>
         </div>
     </section>
 
@@ -263,7 +266,6 @@
     </footer>
 </div>
 
-<!-- FIREBASE SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
@@ -320,7 +322,7 @@
         if (!container) return;
         
         if (messages.length === 0) {
-            container.innerHTML = `<p style="font-size: 13px; color: var(--text-muted);">첫 번째 축하 메시지를 남겨보세요!</p>`;
+            container.innerHTML = `<p style="font-size: 17px; color: var(--text-muted);">첫 번째 축하 메시지를 남겨보세요!</p>`;
             return;
         }
 
