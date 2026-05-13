@@ -125,6 +125,7 @@
 <body>
 
 <div class="mobile-wrapper">
+    <!-- ... 기존 HTML 내용 (문구 유지) ... -->
     <section class="hero">
         <p class="subtitle">1st Anniversary Concert</p>
         <h1>건국 합창단 동문회,<br>첫 번째 연주회</h1>
@@ -227,25 +228,27 @@
 
     <footer>
         건국 합창단 동문회<br>
-        1st Alumni Concert "Resonance"<br><br>
+        1st Alumni Concert<br><br>
         © 2026 Alumni Choir. All rights reserved.
     </footer>
 </div>
 
+<!-- FIREBASE SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    // IMPORTANT: Replace these with your ACTUAL Firebase Project credentials
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
+    // [중요] 아래 "YOUR_..." 부분들을 실제 Firebase 콘솔에 있는 값으로 하나씩 복사해 넣으세요.
+  const firebaseConfig = {
+    apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
+    authDomain: "choir-invitation.firebaseapp.com",
+    projectId: "choir-invitation",
+    storageBucket: "choir-invitation.firebasestorage.app",
+    messagingSenderId: "204228154882",
+    appId: "1:204228154882:web:1e4393c7a0676c9585b91b"
+  };
+
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
@@ -253,23 +256,21 @@
 
     let currentUser = null;
 
-    // Authentication
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
         if (user) {
-            console.log("Logged in as:", user.uid);
+            console.log("인증 성공:", user.uid);
             loadMessages();
         } else {
+            // 인증 시도
             signInAnonymously(auth).catch((error) => {
-                console.error("Auth Error:", error);
-                document.getElementById('loadingMsg').innerText = "인증 실패: Firebase 콘솔에서 '익명 로그인'을 켜주세요.";
+                console.error("인증 실패 상세:", error.code, error.message);
+                document.getElementById('loadingMsg').innerText = "인증 실패: Firebase 콘솔에서 '익명 로그인'이 켜져 있는지 확인해 주세요.";
             });
         }
     });
 
-    // Load Messages
     function loadMessages() {
-        // Simplified path to 'guestbook' for easier permission management
         const q = query(collection(db, 'guestbook'));
 
         onSnapshot(q, (snapshot) => {
@@ -277,13 +278,13 @@
             snapshot.forEach((doc) => {
                 messages.push({ id: doc.id, ...doc.data() });
             });
-            // Sort by time in JavaScript to avoid index issues in Firestore
+            // 시간순 정렬
             messages.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             renderMessages(messages);
         }, (error) => {
-            console.error("Snapshot error:", error);
+            console.error("데이터 로드 실패:", error);
             if(error.code === 'permission-denied') {
-                document.getElementById('loadingMsg').innerText = "권한 부족: Firebase 콘솔의 Rules 탭에서 'read/write'를 허용해주세요.";
+                document.getElementById('loadingMsg').innerText = "권한 오류: Firestore Rules 탭에서 쓰기/읽기 허용을 확인하세요.";
             }
         });
     }
@@ -306,14 +307,13 @@
         `).join('');
     }
 
-    // Add Message function
     window.addMessage = async () => {
         const nameInput = document.getElementById('guestName');
         const msgInput = document.getElementById('guestMessage');
         const submitBtn = document.getElementById('submitBtn');
 
         if (!currentUser) {
-            console.error("User not authenticated.");
+            alert("인증 진행 중입니다. 잠시만 기다려 주세요.");
             return;
         }
 
@@ -321,7 +321,7 @@
         const message = msgInput.value.trim();
 
         if (!name || !message) {
-            console.warn("Input is empty.");
+            alert("성함과 메시지를 입력해 주세요.");
             return;
         }
 
@@ -338,7 +338,8 @@
             nameInput.value = '';
             msgInput.value = '';
         } catch (e) {
-            console.error("Error adding document: ", e);
+            console.error("메시지 저장 오류:", e);
+            alert("메시지 저장에 실패했습니다. 권한 설정을 확인하세요.");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerText = "메시지 남기기";
@@ -347,7 +348,7 @@
 </script>
 
 <script>
-    // Copy account info
+    // 계좌 복사
     function copyAccount() {
         const text = document.getElementById('accountNumber').innerText;
         const tempElem = document.createElement('textarea');
