@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>합창단 동문 연주회 초대장</title>
     
-    <!-- 카카오톡/SNS 공유 시 보여지는 정보 (Open Graph) -->
     <meta property="og:title" content="건국 합창단 동문회, 첫 번째 연주회">
     <meta property="og:description" content="건국 합창단 동문회 첫 번째 연주회에 여러분을 초대합니다.">
-    
-    <!-- [중요] 아래 content 부분에 본인의 실제 GitHub 이미지 주소를 넣으세요 -->
-    <!-- 예: https://yourid.github.io/choir-invitation/share_image.png -->
+    <!-- 아래 og:image에 미리보기로 사용할 사진의 전체 URL을 넣으세요 -->
     <meta property="og:image" content="https://images.unsplash.com/photo-1514320298573-73ba8395b048?q=80&w=800&auto=format&fit=crop">
     <meta property="og:type" content="website">
 
@@ -26,20 +23,10 @@
             --bg-cream: #fffdf9;
             --text-dark: #1e293b;
             --text-muted: #64748b;
-            /* 가독성 개선을 위한 폰트 크기 변수 */
-            --fz-base: 17px;
-            --fz-large: 20px;
-            --fz-title: 26px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background-color: #f1f5f9; 
-            font-family: 'Noto Serif KR', serif; 
-            color: var(--text-dark); 
-            line-height: 1.8; 
-            -webkit-font-smoothing: antialiased; 
-        }
+        body { background-color: #f1f5f9; font-family: 'Noto Serif KR', serif; color: var(--text-dark); line-height: 1.8; -webkit-font-smoothing: antialiased; }
 
         .mobile-wrapper {
             background-color: var(--bg-cream);
@@ -50,7 +37,7 @@
             box-shadow: 0 0 40px rgba(0,0,0,0.1);
         }
 
-        section { padding: 80px 24px; text-align: center; }
+        section { padding: 70px 24px; text-align: center; }
 
         .hero {
             height: 100vh;
@@ -62,23 +49,27 @@
             color: white;
         }
 
-        .hero h1 { font-size: 40px; font-weight: 700; line-height: 1.3; margin-bottom: 25px; word-break: keep-all; }
-        .hero .subtitle { color: var(--accent-gold); letter-spacing: 5px; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
+        .hero h1 { font-size: 38px; font-weight: 700; line-height: 1.35; margin-bottom: 24px; word-break: keep-all; }
+        .hero .subtitle { color: var(--accent-gold); letter-spacing: 4px; font-size: 16px; margin-bottom: 12px; text-transform: uppercase; }
+
+        .memory-photo {
+            width: 100%;
+            height: 320px;
+            /* 배경색과 부드럽게 섞이도록 그라데이션 필터 적용 */
+            background: linear-gradient(rgba(255, 253, 249, 0.4), rgba(255, 253, 249, 0.95)), 
+                        url('./28148.jpg') center/cover no-repeat;
+            margin-top: 20px;
+        }
 
         .section-title {
-            font-size: var(--fz-title);
+            font-size: 24px;
             color: var(--accent-gold);
             margin-bottom: 50px;
-            border-bottom: 2px solid var(--accent-gold);
+            border-bottom: 1px solid var(--accent-gold);
             display: inline-block;
             padding-bottom: 10px;
             letter-spacing: 2px;
-            font-weight: 700;
         }
-
-        .program-item { margin-bottom: 35px; }
-        .program-item h3 { font-size: 22px; margin-bottom: 8px; font-weight: 700; }
-        .program-item p { font-size: 17px; color: var(--text-muted); }
 
         .btn {
             display: flex;
@@ -86,69 +77,51 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
-            padding: 22px; 
-            border-radius: 14px;
+            padding: 18px;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 19px; 
-            margin-bottom: 15px;
+            font-size: 18px;
+            margin-bottom: 16px;
             transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .btn-primary { background-color: var(--primary-navy); color: white; border: none; cursor: pointer; }
+        .btn-primary { background-color: var(--primary-navy); color: white; border: none; }
         .btn-secondary { border: 1px solid #cbd5e1; color: var(--text-dark); background: white; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
 
-        .map-container {
-            width: 100%; 
-            aspect-ratio: 16 / 10;
-            background-color: #f1f5f9; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            margin: 25px 0 15px; 
-            position: relative; 
-            border: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .map-container img { width: 100%; height: 100%; object-fit: cover; }
-
-        .copy-box {
-            background: #f8fafc; padding: 20px; border-radius: 12px; font-size: 18px; 
-            margin-top: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0;
-        }
-
-        .copy-btn {
-            background: var(--primary-navy); color: white; padding: 8px 16px; border-radius: 8px; font-size: 14px; cursor: pointer;
-        }
-
+        /* 방명록 스타일 */
         .guestbook-form {
-            text-align: left; background: white; padding: 25px; border-radius: 16px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 40px;
+            text-align: left; 
+            background: white; 
+            padding: 24px; 
+            border-radius: 16px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+            margin-bottom: 35px;
         }
-        .input-group { margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 15px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+        .input-group { margin-bottom: 16px; }
+        .input-group label { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 6px; }
         input, textarea {
-            width: 100%; padding: 15px; border: 1px solid #e2e8f0; border-radius: 10px; 
-            font-family: inherit; font-size: 17px; outline: none; transition: border-color 0.2s;
+            width: 100%; padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; 
+            font-family: inherit; font-size: 16px; outline: none; transition: border-color 0.2s;
         }
         input:focus, textarea:focus { border-color: var(--accent-gold); }
 
         .message-card {
-            background: white; padding: 22px; border-radius: 14px; margin-bottom: 15px; 
-            border: 1px solid #f1f5f9; text-align: left;
+            background: white; padding: 20px; border-radius: 12px; margin-bottom: 16px; 
+            border: 1px solid #f1f5f9; text-align: left; position: relative;
         }
         .message-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .message-name { font-weight: 700; color: var(--primary-navy); font-size: 17px; }
+        .message-name { font-weight: 700; color: var(--primary-navy); font-size: 16px; }
         .message-date { font-size: 13px; color: var(--text-muted); }
-        .message-body { font-size: 17px; color: var(--text-dark); white-space: pre-wrap; line-height: 1.6; }
-
+        .message-body { font-size: 16px; color: var(--text-dark); white-space: pre-wrap; line-height: 1.6; }
+        
         .delete-btn {
-            background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 15px; display: none;
+            display: none; /* 기본적으로 숨김 */
+            background: none; border: none; color: #ef4444; font-size: 12px; 
+            cursor: pointer; margin-top: 10px; text-decoration: underline;
         }
+        /* 관리자 모드 활성화 시 삭제 버튼 표시 */
         .admin-mode .delete-btn { display: inline-block; }
 
         footer { padding: 50px 24px; background-color: var(--primary-navy); color: #64748b; font-size: 13px; text-align: center; letter-spacing: 0.5px; }
@@ -156,90 +129,51 @@
 </head>
 <body>
 
-<div class="mobile-wrapper">
+<div class="mobile-wrapper" id="mainWrapper">
+    <!-- HERO SECTION -->
     <section class="hero">
-        <p class="subtitle">1st Anniversary Concert</p>
+        <p class="subtitle">1st Concert</p>
         <h1>건국 합창단 동문회,<br>첫 번째 연주회</h1>
-        <p style="font-size: 19px; font-weight: 400; opacity: 0.9;">
+        <p style="font-size: 18px; font-weight: 300; opacity: 0.9;">
             2026. 06. 27 SAT PM 3:00<br>창신 아트홀
         </p>
     </section>
 
-    <section>
-        <i class="fa-solid fa-quote-left" style="color: var(--accent-gold); font-size: 26px; margin-bottom: 25px;"></i>
-        <p style="font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--primary-navy);">노래로 잇는 인연</p>
-        <p style="font-size: 18px; color: var(--text-muted); word-break: keep-all;">
-            수십 년의 세월이 모여 <br>하나의 목소리로 다시 모입니다.<br>
-            그 시절 우리가 함께 노래하던<br>
-            열정과 추억을 다시금 느껴보세요.
-        </p>
-    </section>
+    <!-- 배경용 연한 사진 -->
+    <div class="memory-photo"></div>
 
-    <section style="background-color: #fcf8f1;">
-        <h2 class="section-title">PROGRAM(곡 수가 많아서 제외 고민 중)</h2>
-        <div class="program-item">
-            <h3>노래 제목</h3>
-            <p>작사, 작곡</p>
-        </div>
-        <div class="program-item">
-            <h3>노래 제목</h3>
-            <p>작사, 작곡</p>
-        </div>
-        <div class="program-item">
-            <h3>노래 제목</h3>
-            <p>작사, 작곡</p>
-        </div>
-    </section>
-
+    <!-- LOCATION -->
     <section>
-        <h2 class="section-title">INFORMATION</h2>
-        <div style="margin-bottom: 50px;">
-            <i class="fa-solid fa-location-dot" style="color: var(--accent-gold); font-size: 22px; margin-bottom: 15px;"></i>
+        <h2 class="section-title">LOCATION</h2>
+        <div style="margin-bottom: 45px;">
+            <i class="fa-solid fa-location-dot" style="color: var(--accent-gold); font-size: 24px; margin-bottom: 16px;"></i>
             <p style="font-weight: 700; font-size: 20px;">창신 아트홀</p>
-            <p style="font-size: 17px; color: var(--text-muted);">서울 종로구 지봉로5길 7-5<br>(동묘앞역 8번 출구 근처)</p>
+            <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 24px;">서울 종로구 지봉로5길 7-5<br>(동묘앞역 8번 출구 근처)</p>
             
-            <a href="https://naver.me/5BwmcBob" target="_blank" style="text-decoration: none;">
-                <div class="map-container">
-                    <img src="./map_map.png" onerror="this.src='https://placehold.co/480x300/f1f5f9/64748b?text=지도+이미지를+찾을+수+없습니다'" alt="Map">
-                    <div style="position: absolute; bottom: 12px; right: 12px;">
-                        <span style="background: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: var(--primary-navy);">
-                            <i class="fa-solid fa-expand"></i> 크게 보기
-                        </span>
-                    </div>
-                </div>
-            </a>
-
             <a href="https://naver.me/5BwmcBob" target="_blank" class="btn btn-secondary">
                 네이버 지도로 길찾기
             </a>
         </div>
 
-        <div style="margin-bottom: 50px;">
-            <i class="fa-solid fa-square-p" style="color: var(--accent-gold); font-size: 22px; margin-bottom: 15px;"></i>
+        <div style="margin-bottom: 20px;">
+            <i class="fa-solid fa-square-p" style="color: var(--accent-gold); font-size: 24px; margin-bottom: 16px;"></i>
             <p style="font-weight: 700; font-size: 20px;">주차 안내</p>
-            <p style="font-size: 17px; color: var(--text-muted);">공연장 내 주차가 어렵습니다.<br>가급적 대중교통 또는 <br> 주변 공영 주차장 이용을 부탁드립니다.</p>
-        </div>
-
-        <div style="text-align: left; margin-top: 60px;">
-            <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 8px;">동문회 후원 계좌</p>
-            <div class="copy-box">
-                <span id="accountNumber" style="font-weight: 700;">카카오뱅크 7979-96-77346</span>
-                <span class="copy-btn" onclick="copyAccount()">복사</span>
-            </div>
-            <p style="font-size: 18px; margin-top: 10px; color: var(--text-dark);">예금주: 홍서연</p>
+            <p style="font-size: 15px; color: var(--text-muted);">공연장 내 주차가 어렵습니다.<br>가급적 대중교통 및 주변 공영 주차장 이용을 부탁드립니다.</p>
         </div>
     </section>
 
+    <!-- RSVP -->
     <section style="padding-top: 0; padding-bottom: 30px;">
-        <a href="https://forms.gle/SQbQfcMpFdfo4yBU8" target="_blank" class="btn btn-primary" style="padding: 25px;">
+        <a href="https://forms.gle/SQbQfcMpFdfo4yBU8" target="_blank" class="btn btn-primary" style="padding: 22px;">
             <i class="fa-solid fa-calendar-check"></i> 참석 여부 회신하기
         </a>
-        <p style="font-size: 15px; color: var(--text-muted); margin-top: 12px;">원활한 준비를 위해 6월 20일까지 응답 부탁드립니다.</p>
+        <p style="font-size: 14px; color: var(--text-muted); margin-top: 14px;">원활한 준비를 위해 6월 20일까지 응답 부탁드립니다.</p>
     </section>
 
+    <!-- GUESTBOOK (REAL-TIME) -->
     <section id="guestbook-section" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
         <h2 class="section-title">GUESTBOOK</h2>
-        <p style="font-size: 17px; color: var(--text-muted); margin-bottom: 35px;">따뜻한 축하의 한마디를 남겨주세요.</p>
+        <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 35px;">따뜻한 축하의 한마디를 남겨주세요.</p>
         
         <div class="guestbook-form">
             <div class="input-group">
@@ -248,7 +182,7 @@
             </div>
             <div class="input-group">
                 <label>메시지</label>
-                <textarea id="guestMessage" placeholder="축하 메시지를 남겨주세요" rows="4"></textarea>
+                <textarea id="guestMessage" placeholder="축하 메시지를 남겨주세요" rows="3"></textarea>
             </div>
             <button onclick="addMessage()" id="submitBtn" class="btn btn-primary" style="margin-bottom: 0;">메시지 남기기</button>
         </div>
@@ -260,17 +194,18 @@
 
     <footer>
         건국 합창단 동문회<br>
-        1st Alumni Concert<br><br>
-        © 2026 Alumni Choir. All rights reserved.
+        1st Concert <br><br>
+        © 2026 Konkuk Alumni Choir. All rights reserved.
     </footer>
 </div>
 
+<!-- FIREBASE SDK -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    // [중요] 본인의 Firebase 설정값으로 유지하세요
+    // ✅ 본인의 Firebase 설정값으로 변경하세요
   const firebaseConfig = {
     apiKey: "AIzaSyBmATeb8dhh8eLVB32lqVc5Zivbb9k-4-0",
     authDomain: "choir-invitation.firebaseapp.com",
@@ -284,14 +219,14 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+    let currentUser = null;
 
+    // 관리자 모드 체크 (URL 뒤에 ?admin=true 가 붙어있는지 확인)
     const urlParams = new URLSearchParams(window.location.search);
     const isAdmin = urlParams.get('admin') === 'true';
-    if (isAdmin) {
-        document.body.classList.add('admin-mode');
+    if(isAdmin) {
+        document.getElementById('mainWrapper').classList.add('admin-mode');
     }
-
-    let currentUser = null;
 
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
@@ -299,7 +234,9 @@
             loadMessages();
         } else {
             signInAnonymously(auth).catch((error) => {
-                console.error("인증 에러:", error);
+                console.error("인증 실패:", error);
+                document.getElementById('messageContainer').innerHTML = 
+                    `<p style="font-size: 14px; color: #ef4444;">오류: Firebase 익명 로그인이 활성화되지 않았거나 설정이 잘못되었습니다.<br>관리자에게 문의하세요.</p>`;
             });
         }
     });
@@ -312,50 +249,44 @@
             snapshot.forEach((doc) => {
                 messages.push({ id: doc.id, ...doc.data() });
             });
+
             messages.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             renderMessages(messages);
+        }, (error) => {
+            console.error("Snapshot error:", error);
         });
     }
 
     function renderMessages(messages) {
         const container = document.getElementById('messageContainer');
-        if (!container) return;
-        
         if (messages.length === 0) {
-            container.innerHTML = `<p style="font-size: 17px; color: var(--text-muted);">첫 번째 축하 메시지를 남겨보세요!</p>`;
+            container.innerHTML = `<p style="font-size: 15px; color: var(--text-muted);">첫 번째 축하 메시지를 남겨보세요!</p>`;
             return;
         }
 
         container.innerHTML = messages.map(msg => `
             <div class="message-card">
                 <div class="message-header">
-                    <span class="message-name">${msg.name || '익명'}</span>
+                    <span class="message-name">${msg.name}</span>
                     <span class="message-date">${msg.createdAt ? new Date(msg.createdAt.seconds * 1000).toLocaleDateString() : '방금 전'}</span>
                 </div>
-                <p class="message-body">${msg.message || ''}</p>
-                ${isAdmin ? `<button class="delete-btn" onclick="deleteMessage('${msg.id}')">삭제</button>` : ''}
+                <p class="message-body">${msg.message}</p>
+                <button class="delete-btn" onclick="deleteMessage('${msg.id}')">삭제</button>
             </div>
         `).join('');
     }
-
-    window.deleteMessage = async (id) => {
-        if (!confirm("이 메시지를 정말 삭제하시겠습니까?")) return;
-        try {
-            await deleteDoc(doc(db, 'guestbook', id));
-        } catch (e) {
-            console.error("삭제 오류:", e);
-        }
-    };
 
     window.addMessage = async () => {
         const nameInput = document.getElementById('guestName');
         const msgInput = document.getElementById('guestMessage');
         const submitBtn = document.getElementById('submitBtn');
 
-        if (!currentUser) return;
+        if (!currentUser) return alert("데이터베이스 연결 중입니다. 잠시 후 다시 시도해주세요.");
+
         const name = nameInput.value.trim();
         const message = msgInput.value.trim();
-        if (!name || !message) return;
+
+        if (!name || !message) return alert("성함과 메시지를 모두 입력해주세요.");
 
         submitBtn.disabled = true;
         submitBtn.innerText = "남기는 중...";
@@ -370,28 +301,23 @@
             nameInput.value = '';
             msgInput.value = '';
         } catch (e) {
-            console.error("저장 오류:", e);
+            console.error(e);
+            alert("메시지 저장 실패. 관리자에게 문의하세요.");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerText = "메시지 남기기";
         }
     };
-</script>
 
-<script>
-    function copyAccount() {
-        const text = document.getElementById('accountNumber').innerText;
-        const tempElem = document.createElement('textarea');
-        tempElem.value = text;
-        document.body.appendChild(tempElem);
-        tempElem.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempElem);
-        
-        const btn = document.querySelector('.copy-btn');
-        const originalText = btn.innerText;
-        btn.innerText = "복사됨";
-        setTimeout(() => { btn.innerText = originalText; }, 2000);
+    window.deleteMessage = async (docId) => {
+        if(confirm("정말로 이 메시지를 삭제하시겠습니까?")) {
+            try {
+                await deleteDoc(doc(db, 'guestbook', docId));
+            } catch(e) {
+                console.error(e);
+                alert("삭제 권한이 없거나 오류가 발생했습니다.");
+            }
+        }
     }
 </script>
 
