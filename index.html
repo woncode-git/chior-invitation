@@ -56,11 +56,10 @@
 
         .hero-image-container {
             width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
             margin-top: 40px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* 딱딱한 테두리와 그림자를 없애고 마스크(Mask)를 이용해 가장자리를 부드럽게 페이드 아웃 */
+            -webkit-mask-image: radial-gradient(ellipse 95% 95% at 50% 50%, black 65%, transparent 100%);
+            mask-image: radial-gradient(ellipse 95% 95% at 50% 50%, black 65%, transparent 100%);
         }
 
         .hero-image-container img {
@@ -150,6 +149,17 @@
         <div class="hero-image-container">
             <img src="./28148.jpg" alt="건국 합창단 동문회 단체 사진">
         </div>
+    </section>
+
+    <!-- GREETING (인사말 복원) -->
+    <section>
+        <i class="fa-solid fa-quote-left" style="color: var(--accent-gold); font-size: 24px; margin-bottom: 20px;"></i>
+        <p style="font-size: 20px; font-weight: 700; margin-bottom: 20px; color: var(--primary-navy);">노래로 잇는 인연</p>
+        <p style="font-size: 16px; color: var(--text-muted); word-break: keep-all; line-height: 1.8;">
+            수십 년의 세월이 모여 <br>하나의 목소리로 다시 모입니다.<br><br>
+            그 시절 우리가 함께 노래하던<br>
+            열정과 추억을 다시금 느껴보세요.
+        </p>
     </section>
 
     <!-- LOCATION (기존 memory-photo 영역 삭제됨) -->
